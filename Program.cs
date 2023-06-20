@@ -25,6 +25,15 @@ builder.Services.AddScoped<ICatService, CatService>();
 builder.Services.AddScoped<ICatTypeService, CatTypeService>();
 builder.Services.AddScoped<ISquadService, SquadService>();
 
+builder.Services.AddCors(options =>{
+    options.AddPolicy("AllowCorsPolicy",
+        builder => {
+            builder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+        });
+});
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -40,7 +49,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors("AllowCorsPolicy");
 app.UseAuthorization();
 
 app.MapControllers();
